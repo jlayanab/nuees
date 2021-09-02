@@ -1,0 +1,59 @@
+PODS:
+  - contacts_service (0.2.2):
+    - Flutter
+  - Flutter (1.0.0)
+  - gallery_saver (0.0.1):
+    - Flutter
+  - image_cropper (0.0.4):
+    - Flutter
+    - TOCropViewController (~> 2.6.0)
+  - path_provider (0.0.1):
+    - Flutter
+  - "permission_handler (5.1.0+2)":
+    - Flutter
+  - shared_preferences (0.0.1):
+    - Flutter
+  - TOCropViewController (2.6.0)
+
+DEPENDENCIES:
+  - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
+  - Flutter (from `Flutter`)
+  - gallery_saver (from `.symlinks/plugins/gallery_saver/ios`)
+  - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+
+SPEC REPOS:
+  trunk:
+    - TOCropViewController
+
+EXTERNAL SOURCES:
+  contacts_service:
+    :path: ".symlinks/plugins/contacts_service/ios"
+  Flutter:
+    :path: Flutter
+  gallery_saver:
+    :path: ".symlinks/plugins/gallery_saver/ios"
+  image_cropper:
+    :path: ".symlinks/plugins/image_cropper/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
+
+SPEC CHECKSUMS:
+  contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  gallery_saver: 9fc173c9f4fcc48af53b2a9ebea1b643255be542
+  image_cropper: f1668dd8d2cad2d357955caad15a40547856edcb
+  path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
+  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
+  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.1
