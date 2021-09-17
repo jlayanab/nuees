@@ -7,7 +7,8 @@ import 'package:uees/view/login.dart';
 import 'package:uees/view/generate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:uees/Cotrollers/databasehelpers.dart';
+import 'package:uees/Controllers/databasehelpers.dart';
+import 'package:uees/Controllers/program.dart';
 
 void main() => runApp(MyApp());
 

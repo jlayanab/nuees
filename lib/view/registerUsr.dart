@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uees/view/login.dart';
-import 'package:uees/Cotrollers/databasehelpers.dart';
+import 'package:uees/Controllers/databasehelpers.dart';
 
 class SignupPage extends StatelessWidget {
   final TextEditingController emailController = new TextEditingController();

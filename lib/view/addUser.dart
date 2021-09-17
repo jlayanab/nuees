@@ -1,4 +1,4 @@
-import 'package:uees/Cotrollers/databasehelpers.dart';
+import 'package:uees/Controllers/databasehelpers.dart';
 import 'package:flutter/material.dart';
 
 class AddUser extends StatefulWidget {

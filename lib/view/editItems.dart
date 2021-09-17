@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uees/Cotrollers/databasehelpers.dart';
+import 'package:uees/Controllers/databasehelpers.dart';
 import 'package:uees/view/listItems.dart';
 
 class EditItem extends StatefulWidget {
