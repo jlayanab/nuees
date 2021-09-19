@@ -1046,4 +1046,12 @@ class Program {
     }
     return text;
   }
+
+  Future<String> codificar() async {
+    var now = DateTime.now();
+    var dia = now.toString();
+
+    var text = '';
+    return text;
+  }
 }
