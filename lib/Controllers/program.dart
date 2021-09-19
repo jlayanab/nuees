@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class Program {
   List<List<int>> mabsBoxes = [
     [
@@ -1023,18 +1025,19 @@ class Program {
   ];
 
 // ignore: non_constant_identifier_names
-  Future<String> Encriptar(String psData, int piKey) async {
+  String Encriptar(String psData) {
+    int piKey = int.parse(psData.substring(25, 26));
     String text = '';
 
-    if (piKey < 0 || piKey > 0) {
+    if (piKey < 0 || piKey > 9) {
       return text;
     }
 
     int i = 0;
     try {
       for (; i + 2 <= psData.length; i += 2) {
-        int num = int.parse(psData.substring(i, 2));
-        text += mabsBoxes[piKey][num].toString();
+        int num = int.parse(psData.substring(i, i + 2));
+        text += mabsBoxes[piKey][num].toString().padLeft(2, '0');
       }
       if (i < psData.length) {
         text += psData.substring(i);
@@ -1047,11 +1050,45 @@ class Program {
     return text;
   }
 
-  Future<String> codificar() async {
+  String codificar() {
     var now = DateTime.now();
-    var dia = now.toString();
+    Random randon = new Random();
+    var equipo = '001';
+    var codsitio = '001';
+    var duracion = '003';
+    var rell = '0000000000000000000000';
+    var sec = '1';
 
-    var text = '';
+    var key = randon.nextInt(9);
+    while (key == 0) {
+      key = randon.nextInt(9);
+    }
+
+    var verificador = 10 - key;
+
+    var year = now.year.toString().padLeft(2, '0');
+    var mes = now.month.toString().padLeft(2, '0');
+    var dia = now.day.toString().padLeft(2, '0');
+    var horas = now.hour.toString().padLeft(2, '0');
+    var minutos = now.minute.toString().padLeft(2, '0');
+    var segundos = now.second.toString().padLeft(2, '0');
+    var secuencia = sec.toString().padLeft(8, '0');
+
+    var text = '28' +
+        duracion +
+        codsitio +
+        equipo +
+        horas +
+        minutos +
+        segundos +
+        dia +
+        mes +
+        year +
+        key.toString() +
+        secuencia +
+        rell +
+        verificador.toString();
+    text = Encriptar(text);
     return text;
   }
 }

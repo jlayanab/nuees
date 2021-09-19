@@ -8,7 +8,7 @@ import 'dart:io';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uees/Controllers/program.dart' as pro;
+import 'package:uees/Controllers/program.dart';
 
 class GenerateScreen extends StatefulWidget {
   @override
@@ -21,6 +21,7 @@ class GenerateScreenState extends State<GenerateScreen> {
   //static const double _topSectionHeight = 50.0;
   String _dataString; //variable donde se guarda el código QR generado
   SharedPreferences sharedPreferences;
+  Program program = new Program();
 
   GlobalKey globalKey = new GlobalKey();
   //String _inputErrorText;
@@ -46,6 +47,9 @@ class GenerateScreenState extends State<GenerateScreen> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       _dataString = sharedPreferences.getString("Identification");
+      var text = program.codificar();
+      _dataString = text;
+      print(text.toString());
     });
     print(_dataString);
   }
