@@ -140,8 +140,9 @@ class _LoginPageState extends State<LoginPage> {
                 sharedPreferences.setString("email", emailController.text);
                 sharedPreferences.setString("pass", passwordController.text);
               },
-        //elevation: 0.0,
-        //color: Colors.pink[900],
+        style: ElevatedButton.styleFrom(
+          primary: Colors.pink[900], // background
+        ),
         child: Text("Sign In", style: TextStyle(color: Colors.white70)),
         //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
@@ -155,8 +156,9 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.symmetric(horizontal: 15.0),
       margin: EdgeInsets.only(top: 15.0),
       child: ElevatedButton(
-        //elevation: 0.0,
-        //color: Colors.pink[900],
+        style: ElevatedButton.styleFrom(
+          primary: Colors.pink[900], // background
+        ),
         child: Text("Registrarse", style: TextStyle(color: Colors.white70)),
         //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
         onPressed: () {
