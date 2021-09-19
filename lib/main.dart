@@ -36,6 +36,7 @@ class _MainPageState extends State<MainPage> {
   String usuario, newPath, albumName = 'Media';
   SharedPreferences sharedPreferences;
   File imagepicture, image;
+  Program program = new Program();
 
   @override
   void initState() {
