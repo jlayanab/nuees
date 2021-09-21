@@ -1,3 +1,4 @@
+//import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uees/Controllers/program.dart';
+import 'package:share_plus/share_plus.dart';
 
 class GenerateScreen extends StatefulWidget {
   @override
@@ -80,11 +82,15 @@ class GenerateScreenState extends State<GenerateScreen> {
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
       final tempDir = await getTemporaryDirectory();
-      final file = await new File('${tempDir.path}/image.png').create();
+      final path = '${tempDir.path}/image.png';
+      final file = await new File(path).create();
       await file.writeAsBytes(pngBytes);
 
-      final channel = const MethodChannel('channel:me.camellabs.share/share');
-      channel.invokeMethod('shareFile', 'image.png');
+      await Share.shareFiles([path], text: 'Prueba');
+
+      //Share.file("Invitación Codigo QR", "Codigo.png", pngBytes, "image/png");
+      //final channel = const MethodChannel('channel:me.camellabs.share/share');
+      //channel.invokeMethod('shareFile', 'image.png');
     } catch (e) {
       print(e.toString());
     }

@@ -34,6 +34,8 @@ dependencies:
   flushbar: ^1.5.0
   permission_handler: ^5.0.0
   contacts_service: ^0.3.10
+  esys_flutter_share: ^1.0.2
+  share_plus:
 
 
   # The following adds the Cupertino Icons font to your application.
