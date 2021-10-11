@@ -14,6 +14,7 @@ import 'package:uees/Controllers/program.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:share/share.dart' as sha;
 import 'dart:ui' as ui;
+import 'package:image/image.dart' as img;
 
 class GenerateScreen extends StatefulWidget {
   @override
@@ -199,6 +200,22 @@ class GenerateScreenState extends State<GenerateScreen> {
     setState(() {});
   }
 
+  //transparent to white(255,255,255,255)
+  Future<List<int>> alphaToWhite(ui.Image source) async {
+    Uint8List bytes = (await source.toByteData(format: ImageByteFormat.rawRgba)).buffer.asUint8List();
+    for(int i = 3; i<bytes.length; i+=4) {
+      //if pixel is transparent
+      if(bytes[i] == 0) {
+        bytes[i]   = 255; //no transparent
+        bytes[i-3] = 255; //Red to 255
+        bytes[i-2] = 255; //Green to 255
+        bytes[i-1] = 255; //Blue to 255
+      }
+    }
+    img.Image bytesImage = img.Image.fromBytes(source.width, source.height, bytes);
+    return img.encodePng(bytesImage);
+  }
+
   Future<void> _captureAndSharePng() async {
     // ignore: unused_local_variable
     bool inside = false;
@@ -207,10 +224,8 @@ class GenerateScreenState extends State<GenerateScreen> {
       inside = true;
       RenderRepaintBoundary boundary =
           globalKey.currentContext.findRenderObject();
-      var image = await boundary.toImage();
-      //ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
-      Uint8List pngBytes = byteData.buffer.asUint8List();
+      var image = await alphaToWhite(await boundary.toImage());
+      Uint8List pngBytes = Uint8List.fromList(image);
 
       //print(bs64);
 
