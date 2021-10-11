@@ -34,6 +34,12 @@
 @import permission_handler;
 #endif
 
+#if __has_include(<share/FLTSharePlugin.h>)
+#import <share/FLTSharePlugin.h>
+#else
+@import share;
+#endif
+
 #if __has_include(<share_plus/FLTSharePlusPlugin.h>)
 #import <share_plus/FLTSharePlusPlugin.h>
 #else
@@ -60,6 +66,7 @@
   [EsysFlutterSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"EsysFlutterSharePlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
+  [FLTSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharePlugin"]];
   [FLTSharePlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharePlusPlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
   [FLTURLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTURLLauncherPlugin"]];

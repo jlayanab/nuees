@@ -20,6 +20,7 @@ public final class GeneratedPluginRegistrant {
       de.esys.esysfluttershare.EsysFlutterSharePlugin.registerWith(shimPluginRegistry.registrarFor("de.esys.esysfluttershare.EsysFlutterSharePlugin"));
     flutterEngine.getPlugins().add(new io.flutter.plugins.pathprovider.PathProviderPlugin());
     flutterEngine.getPlugins().add(new com.baseflow.permissionhandler.PermissionHandlerPlugin());
+    flutterEngine.getPlugins().add(new io.flutter.plugins.share.SharePlugin());
     flutterEngine.getPlugins().add(new dev.fluttercommunity.plus.share.SharePlusPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.urllauncher.UrlLauncherPlugin());

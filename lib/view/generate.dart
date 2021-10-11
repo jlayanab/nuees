@@ -1,4 +1,5 @@
 //import 'package:esys_flutter_share/esys_flutter_share.dart';
+
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uees/Controllers/program.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:share/share.dart' as sha;
+import 'dart:ui' as ui;
 
 class GenerateScreen extends StatefulWidget {
   @override
@@ -56,6 +59,98 @@ class GenerateScreenState extends State<GenerateScreen> {
     print(_dataString);
   }
 
+/*
+  Widget build(BuildContext context) {
+    final w = MediaQuery.of(context).size.width;
+    return Scaffold(
+      backgroundColor: Color(0xfff5f5f5),
+      appBar: AppBar(
+        title: Text(
+          widget.label,
+          style: TextStyle(fontFamily: 'SanRegular'),
+        ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.share),
+              onPressed: () {
+                _share();
+              })
+        ],
+        backgroundColor: Color(0xff323639),
+        leading: Container(),
+      ),
+      body: Screenshot(
+        controller: screenshotController,
+
+        // Wrapping this column with a Container and providing a color help me remove black background.
+        // below is Screenshot child.
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              Container(
+                  width: double.infinity,
+                  constraints: BoxConstraints(maxHeight: 300),
+                  child: Image(
+                    image: NetworkImage(widget.img ?? ""),
+                    fit: BoxFit.contain,
+                  )),
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 18,
+                  ),
+                  child: ListTile(
+                      title: Text("@ ${widget.name}",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: 'SanMedium')),
+                      subtitle: Text(
+                        widget.body,
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.green,
+                            fontFamily: 'SanBold'),
+                      ),
+                      leading: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Container(
+                            padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                            decoration: BoxDecoration(
+                                color: AppColor.redText,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "33" ?? 0,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'SanRegular'),
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                SvgPicture.asset('assets/images/like.svg',
+                                    height: 9,
+                                    fit: BoxFit.cover,
+                                    color: Colors.white,
+                                    semanticsLabel: 'popup close')
+                              ],
+                            )),
+                      )),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,27 +161,68 @@ class GenerateScreenState extends State<GenerateScreen> {
           IconButton(
             icon: Icon(Icons.share),
             onPressed: _captureAndSharePng ?? "",
+            //onPressed: shareScreenshot ?? "",
           )
         ],
       ),
-      body: _contentWidget(),
+      body: _contentWidget(context),
     );
   }
 
-  Future<void> _captureAndSharePng() async {
+  Future<Null> shareScreenshot() async {
+    setState(() {
+      //button1 = true;
+    });
     try {
       RenderRepaintBoundary boundary =
           globalKey.currentContext.findRenderObject();
+      if (boundary.debugNeedsPaint) {
+        Timer(Duration(seconds: 1), () => shareScreenshot());
+        return null;
+      }
+      ui.Image image = await boundary.toImage();
+      final directory = (await getExternalStorageDirectory()).path;
+      ByteData byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      Uint8List pngBytes = byteData.buffer.asUint8List();
+      File imgFile = new File('$directory/screenshot.png');
+      imgFile.writeAsBytes(pngBytes);
+      final RenderBox box = context.findRenderObject();
+
+      sha.Share.shareFiles(['$directory/screenshot.png'],
+          subject: 'Share ScreenShot',
+          text: 'Hello, check your share files!',
+          sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    } on PlatformException catch (e) {
+      print("Exception while taking screenshot:" + e.toString());
+    }
+    setState(() {});
+  }
+
+  Future<void> _captureAndSharePng() async {
+    // ignore: unused_local_variable
+    bool inside = false;
+    try {
+      print('inside');
+      inside = true;
+      RenderRepaintBoundary boundary =
+          globalKey.currentContext.findRenderObject();
       var image = await boundary.toImage();
+      //ui.Image image = await boundary.toImage(pixelRatio: 3.0);
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
+      //print(bs64);
+
       final tempDir = await getTemporaryDirectory();
       final path = '${tempDir.path}/image.png';
+      final path2 = '${tempDir.path}/image.jpg';
       final file = await new File(path).create();
       await file.writeAsBytes(pngBytes);
 
-      await Share.shareFiles([path], text: 'Prueba');
+      File(path2).writeAsBytesSync(pngBytes);
+
+      await Share.shareFiles([path], text: "Prueba");
 
       //Share.file("Invitación Codigo QR", "Codigo.png", pngBytes, "image/png");
       //final channel = const MethodChannel('channel:me.camellabs.share/share');
@@ -96,11 +232,11 @@ class GenerateScreenState extends State<GenerateScreen> {
     }
   }
 
-  _contentWidget() {
+  _contentWidget(context) {
     final bodyHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).viewInsets.bottom;
     return Container(
-      color: const Color(0xFFFFFFFF),
+      //color: Color.fromRgb(255, 255, 255),
       child: Column(
         children: <Widget>[
           Padding(
