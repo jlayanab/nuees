@@ -1055,7 +1055,7 @@ class Program {
     Random randon = new Random();
     var equipo = '001';
     var codsitio = '001';
-    var duracion = '003';
+    var duracion = '003'; //Horas de validez
     var rell = '0000000000000000000000';
     var sec = '1';
 
@@ -1088,6 +1088,7 @@ class Program {
         secuencia +
         rell +
         verificador.toString();
+    print(text);
     text = Encriptar(text);
     return text;
   }
