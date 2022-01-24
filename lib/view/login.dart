@@ -1,5 +1,5 @@
 import 'dart:convert';
-//import 'dart:html';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -97,8 +97,8 @@ class _LoginPageState extends State<LoginPage> {
         .post("http://181.39.198.36:3000/api/v1/authenticate", body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      //print('Response status: ${response.statusCode}');
+      //print('Response body: ${response.body}');
       if (jsonResponse != null) {
         setState(() {
           _isLoading = false;
@@ -116,8 +116,41 @@ class _LoginPageState extends State<LoginPage> {
       }
     } //condicion para verificar si el usuario existe o inicia sesion desde web service
     else if (response.statusCode == 401) {
-      signInUees(emailController.text, passwordController.text);
+      //signInUees(emailController.text, passwordController.text);
+      setState(() {
+        _isLoading = false;
+      });
+      await _showMyDialod();
+      //Navigator.push(
+      //    context, MaterialPageRoute(builder: (context) => LoginPage()));
     }
+  }
+
+  Future<void> _showMyDialod() async {
+    return await showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: const Text('UEES'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: const <Widget>[
+                  Text('Usuario o password'),
+                  Text('incorrecto')
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 
   Container buttonSection() {
@@ -149,22 +182,16 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Container buttonRegister() {
+  Container headerSection() {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 40.0,
-      padding: EdgeInsets.symmetric(horizontal: 15.0),
-      margin: EdgeInsets.only(top: 15.0),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: Colors.pink[900], // background
-        ),
-        child: Text("Registrarse", style: TextStyle(color: Colors.white70)),
-        //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-        onPressed: () {
-          Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => SignupPage()));
-        },
+      margin: EdgeInsets.only(top: 50.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+      child: Center(
+        child: Text("UEES",
+            style: TextStyle(
+                color: Colors.white70,
+                fontSize: 70.0,
+                fontWeight: FontWeight.bold)),
       ),
     );
   }
@@ -205,16 +232,22 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Container headerSection() {
+  Container buttonRegister() {
     return Container(
-      margin: EdgeInsets.only(top: 50.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-      child: Center(
-        child: Text("UEES",
-            style: TextStyle(
-                color: Colors.white70,
-                fontSize: 70.0,
-                fontWeight: FontWeight.bold)),
+      width: MediaQuery.of(context).size.width,
+      height: 40.0,
+      padding: EdgeInsets.symmetric(horizontal: 15.0),
+      margin: EdgeInsets.only(top: 15.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Colors.pink[900], // background
+        ),
+        child: Text("Registrarse", style: TextStyle(color: Colors.white70)),
+        //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+        onPressed: () {
+          Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => SignupPage()));
+        },
       ),
     );
   }

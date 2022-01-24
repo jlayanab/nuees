@@ -1,7 +1,4 @@
-//import 'dart:ffi';
 import 'dart:io';
-import 'dart:ui';
-import 'package:uees/view/addpase.dart';
 import 'package:uees/view/listItems.dart';
 import 'package:uees/view/login.dart';
 import 'package:uees/view/generate.dart';
@@ -101,10 +98,7 @@ class _MainPageState extends State<MainPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                new ElevatedButton(
-                    //color: Colors.pink[900],
-                    //textColor: Colors.white,
-                    //splashColor: Colors.blueGrey,
+                ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -112,7 +106,8 @@ class _MainPageState extends State<MainPage> {
                             builder: (context) => GenerateScreen()),
                       );
                     },
-                    child: const Text('GENERAR CÓDIGO QR')),
+                    child: const Text('GENERAR CÓDIGO QR'))
+                //Expanded(flex: 2, child: Image.asset('assets/qr.png'))
               ],
             ),
           ],
@@ -154,7 +149,7 @@ class _MainPageState extends State<MainPage> {
               title: new Text("Crear Pase"),
               trailing: new Icon(Icons.add_circle),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) => Addpase(),
+                builder: (BuildContext context) => LoginPage(), //
               )),
             ),
             new Divider(),

@@ -60,98 +60,6 @@ class GenerateScreenState extends State<GenerateScreen> {
     print(_dataString);
   }
 
-/*
-  Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Color(0xfff5f5f5),
-      appBar: AppBar(
-        title: Text(
-          widget.label,
-          style: TextStyle(fontFamily: 'SanRegular'),
-        ),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.share),
-              onPressed: () {
-                _share();
-              })
-        ],
-        backgroundColor: Color(0xff323639),
-        leading: Container(),
-      ),
-      body: Screenshot(
-        controller: screenshotController,
-
-        // Wrapping this column with a Container and providing a color help me remove black background.
-        // below is Screenshot child.
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              Container(
-                  width: double.infinity,
-                  constraints: BoxConstraints(maxHeight: 300),
-                  child: Image(
-                    image: NetworkImage(widget.img ?? ""),
-                    fit: BoxFit.contain,
-                  )),
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 18,
-                  ),
-                  child: ListTile(
-                      title: Text("@ ${widget.name}",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontFamily: 'SanMedium')),
-                      subtitle: Text(
-                        widget.body,
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.green,
-                            fontFamily: 'SanBold'),
-                      ),
-                      leading: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: Container(
-                            padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                            decoration: BoxDecoration(
-                                color: AppColor.redText,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(6))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  "33" ?? 0,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'SanRegular'),
-                                ),
-                                SizedBox(
-                                  width: 4,
-                                ),
-                                SvgPicture.asset('assets/images/like.svg',
-                                    height: 9,
-                                    fit: BoxFit.cover,
-                                    color: Colors.white,
-                                    semanticsLabel: 'popup close')
-                              ],
-                            )),
-                      )),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,7 +145,8 @@ class GenerateScreenState extends State<GenerateScreen> {
 
       File(path2).writeAsBytesSync(pngBytes);
 
-      await Share.shareFiles([path], text: "Prueba");
+      //await Share.shareFiles([path], text: "Prueba");
+      await Share.shareFiles([path]);
 
       //Share.file("Invitación Codigo QR", "Codigo.png", pngBytes, "image/png");
       //final channel = const MethodChannel('channel:me.camellabs.share/share');
