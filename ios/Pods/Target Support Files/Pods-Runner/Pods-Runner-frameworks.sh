@@ -113,6 +113,7 @@ install_dsym() {
       rsync --delete -av "${RSYNC_PROTECT_TMP_FILES[@]}" --links --filter "- CVS/" --filter "- .svn/" --filter "- .git/" --filter "- .hg/" --filter "- Headers" --filter "- PrivateHeaders" --filter "- Modules" "${DERIVED_FILES_DIR}/${basename}.dSYM" "${DWARF_DSYM_FOLDER_PATH}"
     else
       # The dSYM was not stripped at all, in this case touch a fake folder so the input/output paths from Xcode do not reexecute this script because the file is missing.
+      mkdir -p "${DWARF_DSYM_FOLDER_PATH}"
       touch "${DWARF_DSYM_FOLDER_PATH}/${basename}.dSYM"
     fi
   fi
@@ -175,28 +176,40 @@ code_sign_if_enabled() {
 }
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MTBBarcodeScanner/MTBBarcodeScanner.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/barcode_scan/barcode_scan.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/contacts_service/contacts_service.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/gallery_saver/gallery_saver.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/image_cropper/image_cropper.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/esys_flutter_share/esys_flutter_share.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/share/share.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/share_plus/share_plus.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences/shared_preferences.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/url_launcher/url_launcher.framework"
 fi
 if [[ "$CONFIGURATION" == "Profile" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MTBBarcodeScanner/MTBBarcodeScanner.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/barcode_scan/barcode_scan.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/contacts_service/contacts_service.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/gallery_saver/gallery_saver.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/image_cropper/image_cropper.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/esys_flutter_share/esys_flutter_share.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/share/share.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/share_plus/share_plus.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences/shared_preferences.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/url_launcher/url_launcher.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MTBBarcodeScanner/MTBBarcodeScanner.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/barcode_scan/barcode_scan.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/contacts_service/contacts_service.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/gallery_saver/gallery_saver.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/image_cropper/image_cropper.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/esys_flutter_share/esys_flutter_share.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/share/share.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/share_plus/share_plus.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences/shared_preferences.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/url_launcher/url_launcher.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

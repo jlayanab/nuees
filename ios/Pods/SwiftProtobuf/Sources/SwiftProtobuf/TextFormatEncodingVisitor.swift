@@ -4,7 +4,7 @@
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
-// https://github.com/apple/swift-protobuf/blob/master/LICENSE.txt
+// https://github.com/apple/swift-protobuf/blob/main/LICENSE.txt
 //
 // -----------------------------------------------------------------------------
 ///
@@ -288,12 +288,6 @@ internal struct TextFormatEncodingVisitor: Visitor {
       self.nameMap = (M.self as? _ProtoNameProviding.Type)?._protobuf_nameMap
       self.nameResolver = [:]
       self.extensions = (value as? ExtensibleMessage)?._protobuf_extensionFieldValues
-      // Restore state before returning
-      defer {
-        self.extensions = oldExtensions
-        self.nameResolver = oldNameResolver
-        self.nameMap = oldNameMap
-      }
       // Encode submessage
       encoder.startMessageField()
       if let any = value as? Google_Protobuf_Any {
@@ -302,6 +296,10 @@ internal struct TextFormatEncodingVisitor: Visitor {
           try! value.traverse(visitor: &self)
       }
       encoder.endMessageField()
+      // Restore state before returning
+      self.extensions = oldExtensions
+      self.nameResolver = oldNameResolver
+      self.nameMap = oldNameMap
   }
 
   // Emit the full "verbose" form of an Any.  This writes the typeURL
@@ -611,9 +609,10 @@ internal struct TextFormatEncodingVisitor: Visitor {
   private mutating func _visitMap<K, V>(
     map: Dictionary<K, V>,
     fieldNumber: Int,
+    isOrderedBefore: (K, K) -> Bool,
     coder: (inout TextFormatEncodingVisitor, K, V) throws -> ()
   ) throws {
-      for (k,v) in map {
+      for (k,v) in map.sorted(by: { isOrderedBefore( $0.0, $1.0) }) {
           emitFieldName(lookingUp: fieldNumber)
           encoder.startMessageField()
           var visitor = TextFormatEncodingVisitor(nameMap: nil, nameResolver: mapNameResolver, extensions: nil, encoder: encoder, options: options)
@@ -628,7 +627,7 @@ internal struct TextFormatEncodingVisitor: Visitor {
     value: _ProtobufMap<KeyType, ValueType>.BaseType,
     fieldNumber: Int
   ) throws {
-      try _visitMap(map: value, fieldNumber: fieldNumber) {
+      try _visitMap(map: value, fieldNumber: fieldNumber, isOrderedBefore: KeyType._lessThan) {
           (visitor: inout TextFormatEncodingVisitor, key, value) throws -> () in
           try KeyType.visitSingular(value: key, fieldNumber: 1, with: &visitor)
           try ValueType.visitSingular(value: value, fieldNumber: 2, with: &visitor)
@@ -640,7 +639,7 @@ internal struct TextFormatEncodingVisitor: Visitor {
     value: _ProtobufEnumMap<KeyType, ValueType>.BaseType,
     fieldNumber: Int
   ) throws where ValueType.RawValue == Int {
-      try _visitMap(map: value, fieldNumber: fieldNumber) {
+      try _visitMap(map: value, fieldNumber: fieldNumber, isOrderedBefore: KeyType._lessThan) {
           (visitor: inout TextFormatEncodingVisitor, key, value) throws -> () in
           try KeyType.visitSingular(value: key, fieldNumber: 1, with: &visitor)
           try visitor.visitSingularEnumField(value: value, fieldNumber: 2)
@@ -652,7 +651,7 @@ internal struct TextFormatEncodingVisitor: Visitor {
     value: _ProtobufMessageMap<KeyType, ValueType>.BaseType,
     fieldNumber: Int
   ) throws {
-      try _visitMap(map: value, fieldNumber: fieldNumber) {
+      try _visitMap(map: value, fieldNumber: fieldNumber, isOrderedBefore: KeyType._lessThan) {
           (visitor: inout TextFormatEncodingVisitor, key, value) throws -> () in
           try KeyType.visitSingular(value: key, fieldNumber: 1, with: &visitor)
           try visitor.visitSingularMessageField(value: value, fieldNumber: 2)
