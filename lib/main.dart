@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:uees/view/listItems.dart';
 import 'package:uees/view/login.dart';
 import 'package:uees/view/generate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Registro UEES",
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      //home: LoginPage(),
+      home: MainPage(),
       theme: ThemeData(
           primaryColor: Color.fromRGBO(62, 15, 31, 1),
           accentColor: Colors.white70),
@@ -38,8 +38,8 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();
-    mostrarUsuario();
+    //checkLoginStatus();
+    //mostrarUsuario();
   }
 
   checkLoginStatus() async {
@@ -71,7 +71,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Perfil", style: TextStyle(color: Colors.white)),
+        title: Text("Control Visitas", style: TextStyle(color: Colors.white)),
         actions: <Widget>[
           TextButton(
             onPressed: () {
@@ -81,7 +81,8 @@ class _MainPageState extends State<MainPage> {
                       builder: (BuildContext context) => LoginPage()),
                   (Route<dynamic> route) => false);
             },
-            child: Text("Log Out", style: TextStyle(color: Colors.white)),
+            child: null,
+            //child: Text("Log Out", style: TextStyle(color: Colors.white))
           ),
         ],
       ),
@@ -98,18 +99,35 @@ class _MainPageState extends State<MainPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GenerateScreen()),
-                      );
-                    },
-                    child: const Text('GENERAR CÓDIGO QR'))
+                SizedBox(
+                    width: 314,
+                    height: 120,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => GenerateScreen()),
+                          );
+                        },
+                        child: const Text(
+                          'GENERAR CÓDIGO QR',
+                          style: TextStyle(fontSize: 25),
+                        )))
+
                 //Expanded(flex: 2, child: Image.asset('assets/qr.png'))
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Image(
+                      image: AssetImage('assets/uees.jpeg'),
+                    )),
+              ],
+            )
           ],
         ),
       ),
@@ -129,6 +147,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
             ),
+            /*
             new ListTile(
               title: new Text("Pases Recibidos"),
               trailing: new Icon(Icons.arrow_circle_down_sharp),
@@ -163,6 +182,7 @@ class _MainPageState extends State<MainPage> {
                           builder: (BuildContext context) => LoginPage()),
                       (Route<dynamic> route) => false);
                 }),
+            */
           ],
         ),
       ),
